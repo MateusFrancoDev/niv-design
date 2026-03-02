@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+
 const portfolioData = {
   videos: [
     {
@@ -70,36 +71,40 @@ const PortfolioSection = () => {
   const [activeTab, setActiveTab] = useState<"videos" | "photos">("videos");
   const [currentIndex, setCurrentIndex] = useState(0);
   const phoneRef = useRef<HTMLDivElement>(null);
+  const [isInteracting, setIsInteracting] = useState(false);
 
   const currentList = portfolioData[activeTab];
 
-  // --- LÓGICA DE TRAVAR O SCROLL DA PÁGINA ---
-  useEffect(() => {
-    const phoneEl = phoneRef.current;
-    if (!phoneEl) return;
-
-    // previne o scroll da página enquanto o cursor/dedo estiver sobre o mockup
-    const block = (e: WheelEvent | TouchEvent) => {
-      if (e.cancelable) e.preventDefault();
-    };
-
-    phoneEl.addEventListener("wheel", block, { passive: false });
-    phoneEl.addEventListener("touchmove", block, { passive: false });
-
-    return () => {
-      phoneEl.removeEventListener("wheel", block);
-      phoneEl.removeEventListener("touchmove", block);
-    };
-  }, []);
-
-  const handleWheel = (e: React.WheelEvent) => {
-    if (e.cancelable) e.preventDefault();
-
-    if (e.deltaY > 0 && currentIndex < currentList.length - 1) {
+  // Funções de navegação reaproveitáveis
+  const handleNext = () => {
+    if (currentIndex < currentList.length - 1) {
       setCurrentIndex((prev) => prev + 1);
-    } else if (e.deltaY < 0 && currentIndex > 0) {
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentIndex > 0) {
       setCurrentIndex((prev) => prev - 1);
     }
+  };
+
+  // Navegação via Scroll do Mouse (Desktop)
+  const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.deltaY > 0) handleNext();
+    else if (e.deltaY < 0) handlePrev();
+  };
+
+  // Bloqueia scroll da página ao tocar no celular
+  const handleTouchStart = (e: React.TouchEvent) => {
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+  };
+
+  const handleTouchEnd = () => {
+    document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
   };
 
   return (
@@ -109,7 +114,7 @@ const PortfolioSection = () => {
         <h2 className="text-white text-3xl md:text-5xl font-bold mb-6 font-bebas">
           Meu <span className="text-yellow-500">Portfólio</span>
         </h2>
-        <div className="flex gap-2 bg-neutral-900 p-1 rounded-full border border-white/10 w-fit mx-auto ">
+        <div className="flex gap-2 bg-neutral-900 p-1 rounded-full border border-white/10 w-fit mx-auto">
           {["videos", "photos"].map((tab) => (
             <button
               key={tab}
@@ -129,12 +134,22 @@ const PortfolioSection = () => {
         </div>
       </div>
 
-      {/* iPhone Mockup */}
-      <div
+      {/* iPhone Mockup - Agora com suporte a Touch do Framer Motion */}
+      <motion.div
         ref={phoneRef}
         onWheel={handleWheel}
-        className="relative w-[280px] md:w-[320px] aspect-[9/16] z-10 group"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        // Captura o deslize no mobile
+        onPanEnd={(e, info) => {
+          const swipeThreshold = 50; // Sensibilidade: 50px de movimento
+          if (info.offset.y < -swipeThreshold) handleNext(); // Swipe pra cima
+          if (info.offset.y > swipeThreshold) handlePrev(); // Swipe pra baixo
+        }}
+        // touch-none impede que o navegador tente fazer scroll na página enquanto você desliza no mockup
+        className="relative w-[280px] md:w-[320px] aspect-[9/16] z-10 group touch-none cursor-grab active:cursor-grabbing"
       >
+        {/* Glow de fundo */}
         <div className="absolute inset-0 bg-yellow-500/10 blur-[100px] rounded-full" />
 
         <div className="absolute inset-0 rounded-[45px] bg-neutral-900 border-[8px] border-neutral-800 shadow-2xl overflow-hidden">
@@ -148,7 +163,7 @@ const PortfolioSection = () => {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -50, opacity: 0 }}
               transition={{ duration: 0.4 }}
-              className="relative w-full h-full "
+              className="relative w-full h-full"
             >
               {activeTab === "videos" ? (
                 <video
@@ -163,15 +178,15 @@ const PortfolioSection = () => {
                 <Image
                   src={currentList[currentIndex].url}
                   alt={currentList[currentIndex].title}
-                  fill // Substitui o width/height quando o elemento pai tem tamanho definido
+                  fill
                   sizes="(max-width: 768px) 100vw, 320px"
                   className="object-cover shadow-inner"
-                  priority // Carrega a imagem com prioridade
+                  priority
                 />
               )}
 
-              {/* Overlay de Info unificada para ambos */}
-              <div className="absolute font-bebas inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-end p-6 z-10 ">
+              {/* Overlay de Info */}
+              <div className="absolute font-bebas inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-end p-6 z-10">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -208,7 +223,12 @@ const PortfolioSection = () => {
             />
           ))}
         </div>
-      </div>
+      </motion.div>
+
+      {/* Dica visual para mobile */}
+      <p className="text-white/20 text-[10px] mt-6 uppercase tracking-widest md:hidden animate-pulse">
+        Deslize para cima ou para baixo
+      </p>
     </section>
   );
 };
