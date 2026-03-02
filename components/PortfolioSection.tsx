@@ -141,7 +141,7 @@ const PortfolioSection = () => {
       {/* Menu Superior */}
       <div className="z-20 text-center mb-8 px-4">
         <h2 className="text-white text-3xl md:text-5xl  mb-6 font-bebas">
-          Meu <span className="text-yellow-500">Portfólio</span>
+          Meu <span className="text-yellow-500 font-bold">Portfólio</span>
         </h2>
         <div className="flex gap-2 bg-neutral-900 p-1 rounded-full border border-white/10 w-fit mx-auto">
           {["videos", "photos"].map((tab) => (
