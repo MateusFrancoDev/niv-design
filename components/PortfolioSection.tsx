@@ -45,23 +45,23 @@ const portfolioData = {
     },
     {
       id: 102,
-      title: "Sonar",
+      title: "Vila Izabel x Sonar Music",
       url: "/assets/foto-5.jpg",
-      description: "Jogo beneficente realizado pela @sonarmusicc",
+      description: "Jogo beneficente realizado pela Sonar e Vila Izabel.",
       insta: "https://www.instagram.com/p/DQ73Y77DWTh/?img_index=4",
     },
     {
       id: 103,
       title: "Pedro Gui x Philips",
       url: "/assets/banner-6.jpeg",
-      description: "Iluminação de estúdio para marca pessoal.",
+      description: "Campanha feita para a marca Philips.",
       insta: "https://www.instagram.com/p/DRnV3W2DnuL/?img_index=2",
     },
     {
       id: 104,
       title: "Victor Hugo Mc",
       url: "/assets/foto-6.jpeg",
-      description: "Gravação de vídeo para o projeto Victor Hugo Mc.",
+      description: "Gravação de vídeo clipe.",
       insta: "https://www.instagram.com/p/DLkcXoPgN7V/?img_index=1",
     },
   ],
@@ -136,12 +136,12 @@ const PortfolioSection = () => {
   return (
     <section
       id="portfolio"
-      className="relative font-bebas min-h-screen w-full flex flex-col items-center justify-center bg-black py-10 overflow-hidden"
+      className="relative min-h-screen w-full flex flex-col items-center justify-center bg-black py-10 overflow-hidden"
     >
       {/* Menu Superior */}
       <div className="z-20 text-center mb-8 px-4">
-        <h2 className="text-white text-3xl md:text-5xl  mb-6 font-bebas">
-          Meu <span className="text-yellow-500 font-bold">Portfólio</span>
+        <h2 className="text-white text-3xl md:text-5xl font-bebas mb-6 ">
+          Meu <span className="text-yellow-500 font-bebas">Portfólio</span>
         </h2>
         <div className="flex gap-2 bg-neutral-900 p-1 rounded-full border border-white/10 w-fit mx-auto">
           {["videos", "photos"].map((tab) => (
@@ -237,7 +237,7 @@ const PortfolioSection = () => {
               )}
 
               {/* Overlay de Info */}
-              <div className="absolute font-bebas inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-end p-6 z-10">
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-end p-6 z-10">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -246,14 +246,14 @@ const PortfolioSection = () => {
                   <h3 className="text-white font-bebas text-lg leading-tight">
                     {currentList[currentIndex].title}
                   </h3>
-                  <p className="text-white/60 text-[11px] leading-relaxed line-clamp-2">
+                  <p className="text-white/60 text-[11px] leading-relaxed line-clamp-2 font-body">
                     {currentList[currentIndex].description}
                   </p>
                   <a
                     href={currentList[currentIndex].insta}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex font-bebas items-center justify-center w-full py-2.5 bg-yellow-500 text-black text-[10px] font-black uppercase tracking-tighter rounded-lg hover:bg-yellow-400 transition-colors shadow-lg"
+                    className="flex font-sans items-center justify-center w-full py-2.5 bg-yellow-500 text-black text-[10px] font-black uppercase tracking-tighter rounded-lg hover:bg-yellow-400 transition-colors shadow-lg"
                   >
                     Abrir no Instagram
                   </a>
@@ -277,7 +277,7 @@ const PortfolioSection = () => {
       </motion.div>
 
       {/* Dica visual para mobile */}
-      <p className="text-white/20 text-[10px] mt-6 uppercase tracking-widest md:hidden animate-pulse">
+      <p className="text-white/20 text-[10px] mt-6 uppercase tracking-widest md:hidden animate-pulse font-body">
         Deslize para cima ou para baixo
       </p>
     </section>
