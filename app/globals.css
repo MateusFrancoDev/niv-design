@@ -132,3 +132,8 @@
 @utility animate-scroll-left {
   animation: scroll-left 30s linear infinite;
 }
+
+@utility animate-scroll-right {
+  /* reuse scroll-left animation in reverse for smooth opposite movement */
+  animation: scroll-left 30s linear infinite reverse;
+}
