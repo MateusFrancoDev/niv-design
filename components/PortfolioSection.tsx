@@ -2,10 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
-import Image from "next/image"; // Importação do componente de Imagem do Next.js
-
-// No Next.js, coloque seus vídeos e fotos dentro da pasta "public/assets"
-// Dessa forma, você só precisa passar o caminho da string, sem precisar importar nada!
+import Image from "next/image";
 const portfolioData = {
   videos: [
     {
@@ -31,40 +28,40 @@ const portfolioData = {
     },
     {
       id: 4,
-      title: "O terror tem nome",
+      title: "Aftermovie - Mc Kauan",
       url: "/assets/video-4.mp4",
-      description: "Curta-metragem focado em suspense e atmosfera.",
-      insta: "https://instagram.com/seuuser",
+      description: "Energia pura em cada frame.",
+      insta: "https://www.instagram.com/reels/C-_QFnWSDLu/",
     },
   ],
   photos: [
     {
       id: 101,
-      title: "Ensaio Urbano",
-      url: "/assets/foto-1.jpg",
-      description: "Fotografia de rua com foco em alto contraste.",
-      insta: "https://instagram.com/seuuser",
+      title: "Snot Company",
+      url: "/assets/foto-4.jpeg",
+      description: "Campanha feita para a marca Snot Company.",
+      insta: "https://www.instagram.com/p/CzUS6VRJPVV/",
     },
     {
       id: 102,
-      title: "Evento Corporativo",
-      url: "/assets/foto-2.jpg",
-      description: "Cobertura completa de eventos de grande porte.",
-      insta: "https://instagram.com/seuuser",
+      title: "Sonar",
+      url: "/assets/foto-5.jpg",
+      description: "Jogo beneficente realizado pela @sonarmusicc",
+      insta: "https://www.instagram.com/p/DQ73Y77DWTh/?img_index=4",
     },
     {
       id: 103,
-      title: "Retrato Profissional",
-      url: "/assets/foto-3.jpg",
+      title: "Pedro Gui x Philips",
+      url: "/assets/banner-6.jpeg",
       description: "Iluminação de estúdio para marca pessoal.",
-      insta: "https://instagram.com/seuuser",
+      insta: "https://www.instagram.com/p/DRnV3W2DnuL/?img_index=2",
     },
     {
       id: 104,
-      title: "Arquitetura e Design",
-      url: "/assets/foto-4.jpg",
-      description: "Captura de interiores para portfólio de design.",
-      insta: "https://instagram.com/seuuser",
+      title: "Victor Hugo Mc",
+      url: "/assets/foto-6.jpeg",
+      description: "Gravação de vídeo para o projeto Victor Hugo Mc.",
+      insta: "https://www.instagram.com/p/DLkcXoPgN7V/?img_index=1",
     },
   ],
 };
@@ -106,13 +103,13 @@ const PortfolioSection = () => {
   };
 
   return (
-    <section className="relative min-h-screen w-full flex flex-col items-center justify-center bg-black py-10 overflow-hidden">
+    <section className="relative font-bebas min-h-screen w-full flex flex-col items-center justify-center bg-black py-10 overflow-hidden">
       {/* Menu Superior */}
       <div className="z-20 text-center mb-8 px-4">
-        <h2 className="text-white text-3xl md:text-5xl font-bold mb-6 font-display">
+        <h2 className="text-white text-3xl md:text-5xl font-bold mb-6 font-bebas">
           Meu <span className="text-yellow-500">Portfólio</span>
         </h2>
-        <div className="flex gap-2 bg-neutral-900 p-1 rounded-full border border-white/10 w-fit mx-auto">
+        <div className="flex gap-2 bg-neutral-900 p-1 rounded-full border border-white/10 w-fit mx-auto ">
           {["videos", "photos"].map((tab) => (
             <button
               key={tab}
@@ -120,7 +117,7 @@ const PortfolioSection = () => {
                 setActiveTab(tab as "videos" | "photos");
                 setCurrentIndex(0);
               }}
-              className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all ${
+              className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all cursor-pointer ${
                 activeTab === tab
                   ? "bg-white text-black"
                   : "text-white/40 hover:text-white"
@@ -151,9 +148,8 @@ const PortfolioSection = () => {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -50, opacity: 0 }}
               transition={{ duration: 0.4 }}
-              className="relative w-full h-full"
+              className="relative w-full h-full "
             >
-              {/* Renderização da Mídia (Vídeo ou Imagem Otimizada) */}
               {activeTab === "videos" ? (
                 <video
                   src={currentList[currentIndex].url}
@@ -175,7 +171,7 @@ const PortfolioSection = () => {
               )}
 
               {/* Overlay de Info unificada para ambos */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-end p-6 z-10">
+              <div className="absolute font-bebas inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-end p-6 z-10 ">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -191,7 +187,7 @@ const PortfolioSection = () => {
                     href={currentList[currentIndex].insta}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center justify-center w-full py-2.5 bg-yellow-500 text-black text-[10px] font-black uppercase tracking-tighter rounded-lg hover:bg-yellow-400 transition-colors shadow-lg"
+                    className="flex font-bebas items-center justify-center w-full py-2.5 bg-yellow-500 text-black text-[10px] font-black uppercase tracking-tighter rounded-lg hover:bg-yellow-400 transition-colors shadow-lg"
                   >
                     Abrir no Instagram
                   </a>

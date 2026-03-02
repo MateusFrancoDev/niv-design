@@ -1,4 +1,4 @@
-'use client";';
+"use client";
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
@@ -6,24 +6,32 @@ import { useRef, useState } from "react";
 const testimonials = [
   {
     id: 1,
-    text: "A NIV transformou completamente nossa presença digital. O nível de atenção aos detalhes e a criatividade superaram todas as expectativas.",
-    author: "Marina Costa",
-    role: "CEO, TechFlow",
-    avatar: "MC",
+    text: "A Niv elevou o marketing do Vila Izabel. Hoje temos uma comunicação mais profissional, estratégica e conectada com nossa torcida. Uma parceria que faz parte do nosso crescimento.",
+    author: "Diretoria",
+    role: "A.A Vila Izabel Osasco",
+    avatar: "VI",
   },
+
   {
     id: 2,
     text: "Trabalhar com a NIV Design foi uma experiência incrível. Eles não apenas entregaram um design bonito, mas uma solução estratégica que triplicou nossas conversões.",
-    author: "Rafael Mendes",
-    role: "Founder, Nexo Digital",
-    avatar: "RM",
+    author: "Katia ",
+    role: "Founder, Aroma de mãe",
+    avatar: "K",
   },
   {
-    id: 3,
-    text: "A equipe trouxe uma visão que nem sabíamos que precisávamos. O resultado final é um produto que nossos usuários amam e que nos diferencia no mercado.",
-    author: "Juliana Alves",
-    role: "CPO, Vortex Labs",
-    avatar: "JA",
+    id: 4,
+    text: "A NIV transformou completamente nossa presença digital. O nível de atenção aos detalhes e a criatividade superaram todas as expectativas.",
+    author: "Jonatas Lima",
+    role: "CEO, Cold Sports",
+    avatar: "JL",
+  },
+  {
+    id: 5,
+    text: "A Niv foi responsável por toda a estratégia de marketing e estrutura do Conhecimento Barber. Desde o posicionamento até a divulgação, cada detalhe foi pensado para que o evento acontecesse de forma organizada, profissional e com grande impacto.",
+    author: "Conhecimento Barber",
+    role: "Barbeiros",
+    avatar: "B",
   },
 ];
 

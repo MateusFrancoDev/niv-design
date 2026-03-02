@@ -17,6 +17,9 @@ const Index = () => {
       <AboutSection />
       <ServicesSection />
       <PortfolioSection />
+      <TestimonialsSection />
+      <CTASection />
+      <Footer />
     </main>
   );
 };

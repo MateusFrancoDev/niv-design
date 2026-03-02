@@ -132,17 +132,7 @@ const ServicesSection = () => {
                   }}
                   transition={{ duration: 0.3 }}
                   className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0"
-                >
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path
-                      d="M4 12L12 4M12 4H6M12 4V10"
-                      stroke="hsl(var(--primary-foreground))"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </motion.div>
+                ></motion.div>
               </div>
 
               {/* Tags (mobile description + tags) */}
