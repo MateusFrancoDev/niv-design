@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 const portfolioData = {
@@ -71,9 +71,37 @@ const PortfolioSection = () => {
   const [activeTab, setActiveTab] = useState<"videos" | "photos">("videos");
   const [currentIndex, setCurrentIndex] = useState(0);
   const phoneRef = useRef<HTMLDivElement>(null);
-  const [isInteracting, setIsInteracting] = useState(false);
+  const [loadedItems, setLoadedItems] = useState<Set<string>>(new Set());
 
   const currentList = portfolioData[activeTab];
+
+  // Pré-carrega próximos 2 itens para melhorar performance
+  useEffect(() => {
+    const nextIndex = (currentIndex + 1) % currentList.length;
+    const nexNextIndex = (currentIndex + 2) % currentList.length;
+
+    // Pré-carrega próximos itens
+    const preloadItem = (item: (typeof currentList)[0]) => {
+      if (activeTab === "videos") {
+        const link = document.createElement("link");
+        link.rel = "preload";
+        link.as = "video";
+        link.href = item.url;
+        document.head.appendChild(link);
+      } else {
+        const img = new window.Image();
+        img.src = item.url;
+      }
+    };
+
+    preloadItem(currentList[nextIndex]);
+    preloadItem(currentList[nexNextIndex]);
+  }, [currentIndex, activeTab, currentList]);
+
+  // Marca item como carregado
+  const handleMediaLoad = (id: number) => {
+    setLoadedItems((prev) => new Set(prev).add(`${activeTab}-${id}`));
+  };
 
   // Funções de navegação reaproveitáveis
   const handleNext = () => {
@@ -106,10 +134,13 @@ const PortfolioSection = () => {
   };
 
   return (
-    <section className="relative font-bebas min-h-screen w-full flex flex-col items-center justify-center bg-black py-10 overflow-hidden">
+    <section
+      id="portfolio"
+      className="relative font-bebas min-h-screen w-full flex flex-col items-center justify-center bg-black py-10 overflow-hidden"
+    >
       {/* Menu Superior */}
       <div className="z-20 text-center mb-8 px-4">
-        <h2 className="text-white text-3xl md:text-5xl font-bold mb-6 font-bebas">
+        <h2 className="text-white text-3xl md:text-5xl  mb-6 font-bebas">
           Meu <span className="text-yellow-500">Portfólio</span>
         </h2>
         <div className="flex gap-2 bg-neutral-900 p-1 rounded-full border border-white/10 w-fit mx-auto">
@@ -164,23 +195,45 @@ const PortfolioSection = () => {
               className="relative w-full h-full"
             >
               {activeTab === "videos" ? (
-                <video
-                  src={currentList[currentIndex].url}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-full h-full object-cover"
-                />
+                <>
+                  <video
+                    src={currentList[currentIndex].url}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                    onLoadedData={() =>
+                      handleMediaLoad(currentList[currentIndex].id)
+                    }
+                    className="w-full h-full object-cover"
+                  />
+                  {!loadedItems.has(
+                    `${activeTab}-${currentList[currentIndex].id}`,
+                  ) && (
+                    <div className="absolute inset-0 bg-neutral-800 animate-pulse" />
+                  )}
+                </>
               ) : (
-                <Image
-                  src={currentList[currentIndex].url}
-                  alt={currentList[currentIndex].title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 320px"
-                  className="object-cover shadow-inner"
-                  priority
-                />
+                <>
+                  <Image
+                    src={currentList[currentIndex].url}
+                    alt={currentList[currentIndex].title}
+                    fill
+                    sizes="320px"
+                    className="object-cover shadow-inner"
+                    onLoadingComplete={() =>
+                      handleMediaLoad(currentList[currentIndex].id)
+                    }
+                    priority={true}
+                    quality={90}
+                  />
+                  {!loadedItems.has(
+                    `${activeTab}-${currentList[currentIndex].id}`,
+                  ) && (
+                    <div className="absolute inset-0 bg-neutral-800 animate-pulse" />
+                  )}
+                </>
               )}
 
               {/* Overlay de Info */}
@@ -190,7 +243,7 @@ const PortfolioSection = () => {
                   animate={{ opacity: 1, y: 0 }}
                   className="space-y-2"
                 >
-                  <h3 className="text-white font-bold text-lg leading-tight">
+                  <h3 className="text-white font-bebas text-lg leading-tight">
                     {currentList[currentIndex].title}
                   </h3>
                   <p className="text-white/60 text-[11px] leading-relaxed line-clamp-2">
