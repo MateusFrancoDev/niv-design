@@ -10,24 +10,24 @@ const portfolioData = {
   videos: [
     {
       id: 1,
-      title: "Final Metropolitano",
+      title: "Final Metropolitano NACADÊNCIA F.C.",
       url: "/assets/video-1.mp4",
       description: "Edição dinâmica para o campeonato de 2024.",
-      insta: "https://instagram.com/seuuser",
+      insta: "https://www.instagram.com/reels/DDU8OVoyJ34/",
     },
     {
       id: 2,
-      title: "Pinturas i9",
+      title: "Paredão Vila Izabel",
       url: "/assets/video-2.mp4",
-      description: "Comercial focado em detalhes e texturas.",
-      insta: "https://instagram.com/seuuser",
+      description: "Projeto NIV x VILA IZABEL.",
+      insta: "https://www.instagram.com/reels/DTyZ4iCkp0s/",
     },
     {
       id: 3,
-      title: "Workshop Mudando Vidas",
+      title: "Workshop Garcia Corts",
       url: "/assets/video-3.mp4",
       description: "Registo emocional de evento transformador.",
-      insta: "https://instagram.com/seuuser",
+      insta: "https://www.instagram.com/reels/DLi0Yc6Jg4p/",
     },
     {
       id: 4,
