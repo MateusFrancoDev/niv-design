@@ -10,7 +10,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Niv Design | Mateus Franco",
+  title: "𝙉𝙄𝙑 𝘿𝙚𝙨𝙞𝙜𝙣 • 𝘼𝙜ê𝙣𝙘𝙞𝙖 𝘿𝙞𝙜𝙞𝙩𝙖𝙡",
   description: "Desenvolvimento Front-End de alta performance.",
 };
 
