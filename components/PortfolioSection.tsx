@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 
 const portfolioData = {
@@ -90,8 +90,6 @@ const PortfolioSection = () => {
 
   // Navegação via Scroll do Mouse (Desktop)
   const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
     if (e.deltaY > 0) handleNext();
     else if (e.deltaY < 0) handlePrev();
   };
