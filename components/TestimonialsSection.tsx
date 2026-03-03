@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
 
 const testimonials = [
   {
@@ -27,57 +27,91 @@ const testimonials = [
   },
   {
     id: 5,
-    text: "A Niv foi responsável por toda a estratégia de marketing e estrutura do Conhecimento Barber.",
+    text: "A Niv foi responsável por toda a estratégia de marketing e estrutura do Conhecimento Barber. Desde o posicionamento até a divulgação, cada detalhe foi pensado para que o evento acontecesse de forma organizada, profissional e com grande impacto.",
     author: "Conhecimento Barber",
     role: "Barbeiros",
     avatar: "B",
   },
 ];
 
-export default function TestimonialsSection() {
+const TestimonialsSection = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
   const [active, setActive] = useState(0);
+  const [isDown, setIsDown] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollRef.current) return;
+    setIsDown(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+  };
+
+  const handleMouseLeave = () => setIsDown(false);
+  const handleMouseUp = () => setIsDown(false);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDown || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5; // velocidade
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
 
   return (
-    <section id="testimonials" className="relative py-24 md:py-32">
-      <div className="container px-6 md:px-16">
-        {/* Título */}
-        <motion.h2
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="font-display text-4xl md:text-6xl font-bold mb-12"
-        >
+    <section id="testimonials" className="relative py-24 md:py-32" ref={ref}>
+      <div className="container mb-12">
+        <h2 className="font-display text-4xl md:text-6xl font-bold">
           O que dizem <span className="text-gradient-gold">sobre nós</span>
-        </motion.h2>
+        </h2>
       </div>
 
-      {/* Scroll horizontal */}
-      <div className="flex gap-6 overflow-x-auto pb-6 px-6 md:px-16">
+      {/* Scroll com drag */}
+      <div
+        ref={scrollRef}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeave}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+        className="flex gap-6 overflow-x-scroll px-8 md:px-16 pb-6 cursor-grab active:cursor-grabbing select-none"
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}
+      >
         {testimonials.map((t, i) => (
           <motion.div
             key={t.id}
             initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: i * 0.1 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.4 + i * 0.15 }}
             onMouseEnter={() => setActive(i)}
-            className={`shrink-0 w-[340px] md:w-[400px] p-8 rounded-2xl border transition-all duration-500 cursor-pointer ${
+            className={`group relative p-8 rounded-2xl border transition-all duration-500 shrink-0 w-[340px] md:w-[400px] ${
               active === i
-                ? "border-primary/30 bg-card"
+                ? "border-primary/30 bg-card glow-gold"
                 : "border-border bg-transparent"
             }`}
           >
-            <div className="text-6xl text-primary/20 mb-4">"</div>
+            <div className="font-display text-6xl text-primary/20 leading-none mb-4">
+              "
+            </div>
 
-            <p className="text-sm text-muted-foreground mb-8">{t.text}</p>
+            <p className="font-body text-sm leading-relaxed text-muted-foreground mb-8">
+              {t.text}
+            </p>
 
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-xs font-bold text-primary">
+              <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-xs font-display font-bold text-primary">
                 {t.avatar}
               </div>
               <div>
-                <div className="text-sm font-semibold">{t.author}</div>
+                <div className="font-display text-sm font-semibold">
+                  {t.author}
+                </div>
                 <div className="text-xs text-muted-foreground">{t.role}</div>
               </div>
             </div>
@@ -86,4 +120,6 @@ export default function TestimonialsSection() {
       </div>
     </section>
   );
-}
+};
+
+export default TestimonialsSection;

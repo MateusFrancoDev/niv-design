@@ -137,3 +137,13 @@
   /* reuse scroll-left animation in reverse for smooth opposite movement */
   animation: scroll-left 30s linear infinite reverse;
 }
+
+/* esconder scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
