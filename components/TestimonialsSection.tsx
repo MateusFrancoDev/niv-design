@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 const testimonials = [
   {
@@ -11,11 +11,10 @@ const testimonials = [
     role: "A.A Vila Izabel Osasco",
     avatar: "VI",
   },
-
   {
     id: 2,
     text: "Trabalhar com a NIV Design foi uma experiência incrível. Eles não apenas entregaram um design bonito, mas uma solução estratégica que triplicou nossas conversões.",
-    author: "Katia ",
+    author: "Katia",
     role: "Founder, Aroma de mãe",
     avatar: "K",
   },
@@ -28,103 +27,57 @@ const testimonials = [
   },
   {
     id: 5,
-    text: "A Niv foi responsável por toda a estratégia de marketing e estrutura do Conhecimento Barber. Desde o posicionamento até a divulgação, cada detalhe foi pensado para que o evento acontecesse de forma organizada, profissional e com grande impacto.",
+    text: "A Niv foi responsável por toda a estratégia de marketing e estrutura do Conhecimento Barber.",
     author: "Conhecimento Barber",
     role: "Barbeiros",
     avatar: "B",
   },
 ];
 
-const TestimonialsSection = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+export default function TestimonialsSection() {
   const [active, setActive] = useState(0);
 
   return (
-    <section id="testimonials" className="relative py-24 md:py-32" ref={ref}>
-      <div className="container">
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="flex items-center gap-4 mb-8"
+    <section id="testimonials" className="relative py-24 md:py-32">
+      <div className="container px-6 md:px-16">
+        {/* Título */}
+        <motion.h2
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="font-display text-4xl md:text-6xl font-bold mb-12"
         >
-          <div className="w-12 h-px bg-primary" />
-          <span className="text-sm font-body tracking-[0.3em] uppercase text-primary">
-            Depoimentos
-          </span>
-        </motion.div>
-
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
-          <motion.h2
-            initial={{ opacity: 0, y: 60 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight"
-          >
-            O que dizem <span className="text-gradient-gold">sobre nós</span>
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.4 }}
-            className="text-sm text-muted-foreground font-body flex items-center gap-2"
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              className="shrink-0"
-            >
-              <path
-                d="M2 8h12m0 0L10 4m4 4l-4 4"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            Arraste para ver mais
-          </motion.p>
-        </div>
+          O que dizem <span className="text-gradient-gold">sobre nós</span>
+        </motion.h2>
       </div>
 
-      {/* Horizontal scroll */}
-      <div
-        className="flex gap-6 overflow-x-auto pb-6 px-8 md:px-16 scrollbar-hide"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-      >
+      {/* Scroll horizontal */}
+      <div className="flex gap-6 overflow-x-auto pb-6 px-6 md:px-16">
         {testimonials.map((t, i) => (
           <motion.div
             key={t.id}
             initial={{ opacity: 0, y: 40 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.4 + i * 0.15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: i * 0.1 }}
             onMouseEnter={() => setActive(i)}
-            className={`group relative p-8 rounded-2xl border transition-all duration-500 cursor-pointer shrink-0 w-[340px] md:w-[400px] ${
+            className={`shrink-0 w-[340px] md:w-[400px] p-8 rounded-2xl border transition-all duration-500 cursor-pointer ${
               active === i
-                ? "border-primary/30 bg-card glow-gold"
-                : "border-border bg-transparent hover:border-border/60"
+                ? "border-primary/30 bg-card"
+                : "border-border bg-transparent"
             }`}
           >
-            <div className="font-display text-6xl text-primary/20 leading-none mb-4">
-              "
-            </div>
+            <div className="text-6xl text-primary/20 mb-4">"</div>
 
-            <p className="font-body text-sm leading-relaxed text-muted-foreground mb-8">
-              {t.text}
-            </p>
+            <p className="text-sm text-muted-foreground mb-8">{t.text}</p>
 
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-xs font-display font-bold text-primary">
+              <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-xs font-bold text-primary">
                 {t.avatar}
               </div>
               <div>
-                <div className="font-display text-sm font-semibold">
-                  {t.author}
-                </div>
+                <div className="text-sm font-semibold">{t.author}</div>
                 <div className="text-xs text-muted-foreground">{t.role}</div>
               </div>
             </div>
@@ -133,6 +86,4 @@ const TestimonialsSection = () => {
       </div>
     </section>
   );
-};
-
-export default TestimonialsSection;
+}

@@ -58,7 +58,7 @@ const CTASection = () => {
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <motion.a
-              href="https://wa.me/5511959577652?text=Olá,%20gostaria%20de%20seu%20fazer%20um%20orçamento!"
+              href="https://wa.me/5511959577652?text=Olá,%20gostaria%20de%20fazer%20um%20orçamento!"
               whileHover={{
                 scale: 1.05,
                 boxShadow: "0 0 50px hsl(36 80% 52% / 0.3)",
