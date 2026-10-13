@@ -1,6 +1,10 @@
 "use client";
 
+import { useLanguage } from "@/components/LanguageProvider";
+
 const Footer = () => {
+  const { t } = useLanguage();
+
   return (
     <footer className="border-t border-border py-12">
       <div className="container flex flex-col md:flex-row items-center justify-between gap-6">
@@ -24,11 +28,11 @@ const Footer = () => {
         {/* Copyright + Dev */}
         <div className="text-center md:text-right">
           <p className="text-xs text-muted-foreground font-body">
-            © 2026 NIV Design. Todos os direitos reservados.
+            © 2026 NIV Design. {t.footer.rights}
           </p>
 
           <p className="text-xs text-muted-foreground font-body mt-2">
-            Desenvolvido por{" "}
+            {t.footer.developedBy}{" "}
             <span className="text-foreground font-medium">Mateus Franco</span>
           </p>
         </div>

@@ -2,13 +2,11 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
 
 const services = [
   {
     id: "01",
-    title: "Social Media & Marketing Digital",
-    description:
-      "Desenvolvo estratégias de conteúdo, gestão de redes sociais e campanhas digitais para fortalecer marcas e aumentar conversões.",
     tags: [
       "Content Strategy",
       "Paid Ads",
@@ -19,9 +17,6 @@ const services = [
   },
   {
     id: "02",
-    title: " Identidade Visual & Branding",
-    description:
-      "Identidades visuais memoráveis que comunicam a essência da sua marca e criam conexões emocionais duradouras.",
     tags: [
       "Logo Design",
       "Brand Strategy",
@@ -32,9 +27,6 @@ const services = [
   },
   {
     id: "03",
-    title: "Desenvolvimento",
-    description:
-      "Código limpo, performático e acessível. React, Next.js e tecnologias modernas para experiências impecáveis.",
     tags: [
       "Web Applications",
       "UX Optimization",
@@ -45,9 +37,6 @@ const services = [
   },
   {
     id: "04",
-    title: " Planejamento Estratégico",
-    description:
-      "Desenvolvo estratégias personalizadas para posicionamento de marca, crescimento sustentável e geração de resultados no ambiente digital.",
     tags: [
       "Brand Strategy",
       "Market Analysis",
@@ -59,6 +48,7 @@ const services = [
 ];
 
 const ServicesSection = () => {
+  const { t } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [hoveredService, setHoveredService] = useState<string | null>(null);
@@ -75,7 +65,7 @@ const ServicesSection = () => {
         >
           <div className="w-12 h-px bg-primary" />
           <span className="text-sm font-body tracking-[0.3em] uppercase text-primary">
-            Serviços
+            {t.services.label}
           </span>
         </motion.div>
 
@@ -85,7 +75,8 @@ const ServicesSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight max-w-3xl mb-20"
         >
-          O que fazemos <span className="text-gradient-gold">de melhor</span>
+          {t.services.title}{" "}
+          <span className="text-gradient-gold">{t.services.titleHighlight}</span>
         </motion.h2>
 
         {/* Services list */}
@@ -117,11 +108,11 @@ const ServicesSection = () => {
                 </span>
 
                 <h3 className="font-display text-2xl md:text-4xl font-bold tracking-tight flex-1 group-hover:text-primary transition-colors duration-300">
-                  {service.title}
+                  {t.services.items[i].title}
                 </h3>
 
                 <p className="text-sm text-muted-foreground max-w-xs leading-relaxed hidden md:block">
-                  {service.description}
+                  {t.services.items[i].description}
                 </p>
 
                 {/* Arrow */}
@@ -146,7 +137,7 @@ const ServicesSection = () => {
                 className="overflow-hidden relative"
               >
                 <p className="text-sm text-muted-foreground max-w-sm leading-relaxed md:hidden px-4 pt-4">
-                  {service.description}
+                  {t.services.items[i].description}
                 </p>
                 <div className="flex flex-wrap gap-2 px-4 pt-4 md:pl-[calc(3rem+3rem)]">
                   {service.tags.map((tag) => (

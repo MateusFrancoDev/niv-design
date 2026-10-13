@@ -2,8 +2,12 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
+
+const WHATSAPP_URL = "https://wa.me/5511959577652?text=";
 
 const CTASection = () => {
+  const { t } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -27,7 +31,7 @@ const CTASection = () => {
             className="mb-8"
           >
             <span className="text-sm font-body tracking-[0.3em] uppercase text-primary">
-              Vamos criar juntos?
+              {t.cta.label}
             </span>
           </motion.div>
 
@@ -37,8 +41,9 @@ const CTASection = () => {
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 leading-[0.95]"
           >
-            Transforme sua <span className="text-gradient-gold">visão</span> em
-            realidade
+            {t.cta.titleStart}{" "}
+            <span className="text-gradient-gold">{t.cta.titleHighlight}</span>{" "}
+            {t.cta.titleEnd}
           </motion.h2>
 
           <motion.p
@@ -47,8 +52,7 @@ const CTASection = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="text-lg text-muted-foreground font-body max-w-lg mx-auto mb-12 leading-relaxed"
           >
-            Pronto para elevar sua marca ao próximo nível? Entre em contato e
-            vamos conversar sobre o seu projeto.
+            {t.cta.description}
           </motion.p>
 
           <motion.div
@@ -58,7 +62,7 @@ const CTASection = () => {
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <motion.a
-              href="https://wa.me/5511959577652?text=Olá,%20gostaria%20de%20fazer%20um%20orçamento!"
+              href={WHATSAPP_URL + encodeURIComponent(t.cta.quoteMessage)}
               whileHover={{
                 scale: 1.05,
                 boxShadow: "0 0 50px hsl(36 80% 52% / 0.3)",
@@ -66,7 +70,7 @@ const CTASection = () => {
               whileTap={{ scale: 0.98 }}
               className="flex items-center gap-3 px-10 py-5 bg-primary text-primary-foreground font-display font-semibold text-base rounded-full"
             >
-              Solicitar Orçamento
+              {t.cta.quote}
               <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
                 <path
                   d="M4 12L12 4M12 4H6M12 4V10"
@@ -79,12 +83,12 @@ const CTASection = () => {
             </motion.a>
 
             <motion.a
-              href="https://wa.me/5511959577652?text=Olá,%20gostaria%20de%20agendar%20uma%20conversa!"
+              href={WHATSAPP_URL + encodeURIComponent(t.cta.meetingMessage)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
               className="flex items-center gap-3 px-10 py-5 rounded-full border border-border text-foreground font-display font-semibold text-base hover:border-primary/40 transition-colors"
             >
-              Agendar Conversa
+              {t.cta.meeting}
             </motion.a>
           </motion.div>
         </div>

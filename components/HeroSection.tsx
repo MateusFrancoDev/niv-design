@@ -3,8 +3,10 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
+import { useLanguage } from "@/components/LanguageProvider";
 
 const HeroSection = () => {
+  const { t } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -81,7 +83,8 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-[14px] font-body text tracking-[0.3em] uppercase text-muted-foreground mb-8"
         >
-          Agência <span className="text-gradient-gold"> Digital</span>
+          {t.hero.tagline}{" "}
+          <span className="text-gradient-gold">{t.hero.taglineHighlight}</span>
         </motion.p>
 
         <motion.h1
@@ -108,8 +111,7 @@ const HeroSection = () => {
           transition={{ delay: 1.2, duration: 0.6 }}
           className="text-sm md:text-md font-body text-muted-foreground max-w-lg leading-relaxed mb-10"
         >
-          Criamos experiências digitais que transformam marcas em referências.
-          Design, código e estratégia em perfeita harmonia.
+          {t.hero.description}
         </motion.p>
       </motion.div>
 
@@ -121,7 +123,7 @@ const HeroSection = () => {
         className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
         <span className="text-xs font-body tracking-widest uppercase text-muted-foreground">
-          Scroll
+          {t.hero.scroll}
         </span>
         <motion.div
           animate={{ y: [0, 8, 0] }}

@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { useLanguage } from "@/components/LanguageProvider";
 
 const portfolioData = {
   videos: [
@@ -10,28 +11,24 @@ const portfolioData = {
       id: 1,
       title: "Final Metropolitano NACADÊNCIA F.C.",
       url: "/assets/video-1.mp4",
-      description: "Edição dinâmica para o campeonato de 2024.",
       insta: "https://www.instagram.com/reels/DDU8OVoyJ34/",
     },
     {
       id: 2,
       title: "Paredão Vila Izabel",
       url: "/assets/video-2.mp4",
-      description: "Projeto NIV x VILA IZABEL.",
       insta: "https://www.instagram.com/reels/DTyZ4iCkp0s/",
     },
     {
       id: 3,
       title: "Workshop Garcia Corts",
       url: "/assets/video-3.mp4",
-      description: "Registo emocional de evento transformador.",
       insta: "https://www.instagram.com/reels/DLi0Yc6Jg4p/",
     },
     {
       id: 4,
       title: "Aftermovie - Mc Kauan",
       url: "/assets/video-4.mp4",
-      description: "Energia pura em cada frame.",
       insta: "https://www.instagram.com/reels/C-_QFnWSDLu/",
     },
   ],
@@ -40,34 +37,31 @@ const portfolioData = {
       id: 101,
       title: "Snot Company",
       url: "/assets/foto-4.jpeg",
-      description: "Campanha feita para a marca Snot Company.",
       insta: "https://www.instagram.com/p/CzUS6VRJPVV/",
     },
     {
       id: 102,
       title: "Vila Izabel x Sonar Music",
       url: "/assets/foto-5.jpg",
-      description: "Jogo beneficente realizado pela Sonar e Vila Izabel.",
       insta: "https://www.instagram.com/p/DQ73Y77DWTh/?img_index=4",
     },
     {
       id: 103,
       title: "Pedro Gui x Philips",
       url: "/assets/banner-6.jpeg",
-      description: "Campanha feita para a marca Philips.",
       insta: "https://www.instagram.com/p/DRnV3W2DnuL/?img_index=2",
     },
     {
       id: 104,
       title: "Victor Hugo Mc",
       url: "/assets/foto-6.jpeg",
-      description: "Gravação de vídeo clipe.",
       insta: "https://www.instagram.com/p/DLkcXoPgN7V/?img_index=1",
     },
   ],
 };
 
 const PortfolioSection = () => {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<"videos" | "photos">("videos");
   const [currentIndex, setCurrentIndex] = useState(0);
   const phoneRef = useRef<HTMLDivElement>(null);
@@ -141,7 +135,10 @@ const PortfolioSection = () => {
       {/* Menu Superior */}
       <div className="z-20 text-center mb-8 px-4">
         <h2 className="text-white text-3xl md:text-5xl font-bebas mb-6 ">
-          Meu <span className="text-yellow-500 font-bebas">Portfólio</span>
+          {t.portfolio.title}{" "}
+          <span className="text-yellow-500 font-bebas">
+            {t.portfolio.titleHighlight}
+          </span>
         </h2>
         <div className="flex gap-2 bg-neutral-900 p-1 rounded-full border border-white/10 w-fit mx-auto">
           {["videos", "photos"].map((tab) => (
@@ -157,7 +154,7 @@ const PortfolioSection = () => {
                   : "text-white/40 hover:text-white"
               }`}
             >
-              {tab === "videos" ? "Vídeos" : "Fotos"}
+              {t.portfolio.tabs[tab as "videos" | "photos"]}
             </button>
           ))}
         </div>
@@ -247,7 +244,7 @@ const PortfolioSection = () => {
                     {currentList[currentIndex].title}
                   </h3>
                   <p className="text-white/60 text-[11px] leading-relaxed line-clamp-2 font-body">
-                    {currentList[currentIndex].description}
+                    {t.portfolio[activeTab][currentIndex]}
                   </p>
                   <a
                     href={currentList[currentIndex].insta}
@@ -255,7 +252,7 @@ const PortfolioSection = () => {
                     rel="noreferrer"
                     className="flex font-sans items-center justify-center w-full py-2.5 bg-yellow-500 text-black text-[10px] font-black uppercase tracking-tighter rounded-lg hover:bg-yellow-400 transition-colors shadow-lg"
                   >
-                    Abrir no Instagram
+                    {t.portfolio.openInstagram}
                   </a>
                 </motion.div>
               </div>
@@ -278,7 +275,7 @@ const PortfolioSection = () => {
 
       {/* Dica visual para mobile */}
       <p className="text-white/20 text-[10px] mt-6 uppercase tracking-widest md:hidden animate-pulse font-body">
-        Deslize para cima ou para baixo
+        {t.portfolio.swipeHint}
       </p>
     </section>
   );

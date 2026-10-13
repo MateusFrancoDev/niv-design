@@ -2,39 +2,29 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
 
 const testimonials = [
   {
     id: 1,
-    text: "A Niv elevou o marketing do Vila Izabel. Hoje temos uma comunicação mais profissional, estratégica e conectada com nossa torcida. Uma parceria que faz parte do nosso crescimento.",
-    author: "Diretoria",
-    role: "A.A Vila Izabel Osasco",
     avatar: "VI",
   },
   {
     id: 2,
-    text: "Trabalhar com a NIV Design foi uma experiência incrível. Eles não apenas entregaram um design bonito, mas uma solução estratégica que triplicou nossas conversões.",
-    author: "Katia",
-    role: "Founder, Aroma de mãe",
     avatar: "K",
   },
   {
     id: 4,
-    text: "A NIV transformou completamente nossa presença digital. O nível de atenção aos detalhes e a criatividade superaram todas as expectativas.",
-    author: "Jonatas Lima",
-    role: "CEO, Cold Sports",
     avatar: "JL",
   },
   {
     id: 5,
-    text: "A Niv foi responsável por toda a estratégia de marketing e estrutura do Conhecimento Barber. Desde o posicionamento até a divulgação, cada detalhe foi pensado para que o evento acontecesse de forma organizada, profissional e com grande impacto.",
-    author: "Conhecimento Barber",
-    role: "Barbeiros",
     avatar: "B",
   },
 ];
 
 const TestimonialsSection = () => {
+  const { t: dict } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -66,7 +56,10 @@ const TestimonialsSection = () => {
     <section id="testimonials" className="relative py-24 md:py-32" ref={ref}>
       <div className="container mb-12">
         <h2 className="font-display text-4xl md:text-6xl font-bold">
-          O que dizem <span className="text-gradient-gold">sobre nós</span>
+          {dict.testimonials.title}{" "}
+          <span className="text-gradient-gold">
+            {dict.testimonials.titleHighlight}
+          </span>
         </h2>
       </div>
 
@@ -101,7 +94,7 @@ const TestimonialsSection = () => {
             </div>
 
             <p className="font-body text-sm leading-relaxed text-muted-foreground mb-8">
-              {t.text}
+              {dict.testimonials.items[i].text}
             </p>
 
             <div className="flex items-center gap-3">
@@ -110,9 +103,9 @@ const TestimonialsSection = () => {
               </div>
               <div>
                 <div className="font-display text-sm font-semibold">
-                  {t.author}
+                  {dict.testimonials.items[i].author}
                 </div>
-                <div className="text-xs text-muted-foreground">{t.role}</div>
+                <div className="text-xs text-muted-foreground">{dict.testimonials.items[i].role}</div>
               </div>
             </div>
           </motion.div>
